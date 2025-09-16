@@ -1,0 +1,49 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Sport_App_Model;
+using Sport_App_Model.Entity;
+
+namespace Sports_App_Repository.UserRepository
+{
+    
+    public class UserRepository : IUserRepository
+    {
+        private readonly AppDbContext _context;
+
+        public UserRepository(AppDbContext context)
+        {
+            _context = context;
+        }
+                 
+        public async Task<User> AddUserAsync(User user)
+        {
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
+        public async Task<User?> GetUserByEmailAsync(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user != null)
+            {
+                return user;
+            }
+
+            return null;
+        }
+
+        public async Task<User?> GetUserByIdAsync(Guid guid)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Guid == guid);
+
+            if (user != null)
+            {
+                return user;
+            }
+
+            return null;
+        }
+    }
+}
