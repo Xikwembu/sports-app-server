@@ -7,15 +7,19 @@ namespace Sport_App_Model.Entity
     {
         [Key]
         [Required]
-        public Guid Guid { get; set; }
-
+        public int Id { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public string Surname { get; set; }
         [Required]
         public string Password { get; set; }
-
         [Required]
-        [EmailAddress]
         public string Email { get; set; }
-
+        [Required]
+        public string IdNumber { get; set; }
+        [Required]
+        public string Race { get; set; }
         [Required]
         public string Role { get; set; }
     }
