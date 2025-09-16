@@ -34,9 +34,9 @@ namespace Sports_App_Repository.UserRepository
             return null;
         }
 
-        public async Task<User?> GetUserByIdAsync(Guid guid)
+        public async Task<User?> GetUserByIdAsync(int userId)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Guid == guid);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user != null)
             {

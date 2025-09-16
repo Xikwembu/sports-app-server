@@ -1,4 +1,5 @@
-﻿using Sport_App_Model.Returns;
+﻿using Sport_App_Model.Entity;
+using Sport_App_Model.Returns;
 using Sports_App_Repository.UserRepository;
 
 namespace Sport_App_Service.Auth.Register
@@ -25,9 +26,8 @@ namespace Sport_App_Service.Auth.Register
                 };
             }
 
-            var newUser = new Sport_App_Model.Entity.User
+            var newUser = new User
             {
-                Guid = Guid.NewGuid(),
                 Email = email,
                 Password = password,
                 Role = role,

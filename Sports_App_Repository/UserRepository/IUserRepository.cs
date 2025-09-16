@@ -6,6 +6,6 @@ namespace Sports_App_Repository.UserRepository
     {
         Task<User> AddUserAsync(User user);
         Task<User?> GetUserByEmailAsync(string email);
-        Task<User?> GetUserByIdAsync(Guid guid);
+        Task<User?> GetUserByIdAsync(int userId);
     }
 }
