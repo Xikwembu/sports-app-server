@@ -23,7 +23,7 @@ namespace Sport_App_Demo.Controllers
         [HttpPost]
         public IActionResult RegisterUser([FromBody] RegisterUserRequest request)
         {
-            var result = _registerService.RegisterReturn(request.Email, request.Password, request.Role);
+            var result = _registerService.RegisterUser(request.Name, request.Surname, request.Email, request.Password, request.Role, request.Race, request.IdNumber);
 
             if (result.Status)
             {
