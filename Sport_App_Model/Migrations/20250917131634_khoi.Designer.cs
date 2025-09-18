@@ -11,8 +11,8 @@ using Sport_App_Model;
 namespace Sport_App_Model.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250917070145_migr")]
-    partial class migr
+    [Migration("20250917131634_khoi")]
+    partial class khoi
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,6 +53,10 @@ namespace Sport_App_Model.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Roletype")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

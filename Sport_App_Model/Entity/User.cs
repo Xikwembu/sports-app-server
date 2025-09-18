@@ -22,5 +22,8 @@ namespace Sport_App_Model.Entity
         public string Race { get; set; }
         [Required]
         public string Role { get; set; }
+
+        [Required]
+        public string Roletype { get; set; }
     }
 }

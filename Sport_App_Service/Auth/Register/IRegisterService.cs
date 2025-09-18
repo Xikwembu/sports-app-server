@@ -4,6 +4,6 @@ namespace Sport_App_Service.Auth.Register
 {
     public interface IRegisterService
     {
-        AuthReturn RegisterUser(string name, string surname, string email, string password, string role, string race, string idNumber);
+        AuthReturn RegisterUser(string name, string surname, string email, string password, string role, string race, string idNumber, string roletype);
     }
 }

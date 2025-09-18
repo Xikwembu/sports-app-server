@@ -7,7 +7,7 @@ namespace Sport_App_Service.Auth.Register
 {
     public class RegisterService : IRegisterService
     {
-        public readonly IUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IEncryptionService _encryptionService;
 
         public RegisterService(IUserRepository userRepository, IEncryptionService encryptionService)
@@ -16,7 +16,7 @@ namespace Sport_App_Service.Auth.Register
             _encryptionService = encryptionService;
         }
 
-        public AuthReturn RegisterUser(string name, string surname, string email, string password, string role, string race, string idNumber)
+        public AuthReturn RegisterUser(string name, string surname, string email, string password, string role, string race, string idNumber, string roletype)
         {
             var existingUser = _userRepository.GetUserByEmailAsync(email).Result;
 
@@ -33,13 +33,14 @@ namespace Sport_App_Service.Auth.Register
 
             var newUser = new User
             {
-                Name = name,
                 Surname = surname,
+                Role = role,
+                Roletype = roletype,
+                Race = race,
+                Name = name,
+                IdNumber = idNumber,
                 Email = email,
                 Password = hashedPassword,
-                Role = role,
-                Race = race,
-                IdNumber = idNumber
             };
 
             _userRepository.AddUserAsync(newUser).Wait();

@@ -5,7 +5,7 @@
 namespace Sport_App_Model.Migrations
 {
     /// <inheritdoc />
-    public partial class migr : Migration
+    public partial class khoi : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,7 +22,8 @@ namespace Sport_App_Model.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Race = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Roletype = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

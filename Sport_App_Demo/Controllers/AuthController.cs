@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Sport_App_Model.Requests;
 using Sport_App_Service.Auth.Login;
 using Sport_App_Service.Auth.Register;
+using System.Data;
+using System.Diagnostics;
 
 namespace Sport_App_Demo.Controllers
 {
@@ -23,7 +25,7 @@ namespace Sport_App_Demo.Controllers
         [HttpPost]
         public IActionResult RegisterUser([FromBody] RegisterUserRequest request)
         {
-            var result = _registerService.RegisterUser(request.Name, request.Surname, request.Email, request.Password, request.Role, request.Race, request.IdNumber);
+            var result = _registerService.RegisterUser(request.Name, request.Surname, request.Email, request.Password, request.Role, request.Race, request.IdNumber, request.Roletype);
 
             if (result.Status)
             {
