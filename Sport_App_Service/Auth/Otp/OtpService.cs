@@ -118,6 +118,7 @@ namespace Sports_App_Service.Auth.Otp
                 };
             }
 
+            await _otpRepository.DeleteOtpAsync(userOtp);
             var authToken = _authTokenService.GenerateToken(user.Id, user.Email, user.Role);
 
             return new AuthReturn
