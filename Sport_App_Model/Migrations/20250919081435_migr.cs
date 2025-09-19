@@ -5,7 +5,7 @@
 namespace Sport_App_Model.Migrations
 {
     /// <inheritdoc />
-    public partial class khoi : Migration
+    public partial class migr : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

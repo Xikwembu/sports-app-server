@@ -11,8 +11,8 @@ using Sport_App_Model;
 namespace Sport_App_Model.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250917131634_khoi")]
-    partial class khoi
+    [Migration("20250919081435_migr")]
+    partial class migr
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
