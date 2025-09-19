@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Sport_App_Model.Requests;
 using Sport_App_Service.Auth.Login;
 using Sport_App_Service.Auth.Register;
+using Sports_App_Model.Requests.Auth;
+using Sports_App_Service.Auth.Otp;
 
 namespace Sport_App_Demo.Controllers
 {
@@ -13,17 +14,20 @@ namespace Sport_App_Demo.Controllers
     {
         private readonly IRegisterService _registerService;
         private readonly ILoginService _loginService;
+        private readonly IOtpService _otpService;
 
-        public AuthController(IRegisterService registerService, ILoginService loginService)
+        public AuthController(IRegisterService registerService, ILoginService loginService,
+            IOtpService otpService)
         {
             _registerService = registerService;
             _loginService = loginService;
+            _otpService = otpService;
         }
 
         [HttpPost]
-        public IActionResult RegisterUser([FromBody] RegisterUserRequest request)
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserRequest request)
         {
-            var result = _registerService.RegisterUser(request.Name, request.Surname, request.Email, request.Password, request.Role, request.Race, request.IdNumber, request.RoleType);
+            var result = await _registerService.RegisterUserAsync(request.Name, request.Surname, request.Email, request.Password, request.Role, request.Race, request.IdNumber, request.RoleType);
 
             if (result.Status)
             {
@@ -36,9 +40,32 @@ namespace Sport_App_Demo.Controllers
         }
 
         [HttpPost]
-        public IActionResult LoginUser([FromBody] LoginUserRequest request)
+        public async Task<IActionResult> LoginUser([FromBody] LoginUserRequest request)
         {
-            var result = _loginService.LoginReturn(request.Email, request.Password);
+            var result = await _loginService.LoginUserAsync(request.Email, request.Password);
+
+            if (result.Status)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpRequest request)
+        {
+            var userIdClaim = User.FindFirst("userId")?.Value;
+            int userId = 0;
+
+            if (int.TryParse(userIdClaim, out var id))
+            {
+                userId = id;
+            }
+
+            var result = await _otpService.VerifyOtpAsync(userId, request.Otp);
 
             if (result.Status)
             {

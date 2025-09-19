@@ -17,29 +17,27 @@ namespace Sport_App_Service.Auth.Register
             _encryptionService = encryptionService;
         }
 
-        public AuthReturn RegisterUser(string name, string surname, string email, string password, string role, string race, string idNumber, string roleType)
+        public async Task<AuthReturn> RegisterUserAsync(string name, string surname, string email, string password, string role, string race, string idNumber, string roleType)
         {
-            var existingUser = _userRepository.GetUserByEmailAsync(email).Result;
+            var existingUser = await _userRepository.GetUserByEmailAsync(email);
 
             if (existingUser != null)
             {
                 return new AuthReturn
                 {
                     Status = false,
-                    Messsage = "Email already in use"
+                    Message = "Email already in use"
                 };
             }
 
-            if (existingUser != null)
+            var userByIdNumber = await _userRepository.GetUserByIdNumberAsync(idNumber);
+            if (userByIdNumber != null)
             {
-                if (existingUser.IdNumber == idNumber)
+                return new AuthReturn
                 {
-                    return new AuthReturn
-                    {
-                        Status = false,
-                        Messsage = "ID number already exists"
-                    };
-                }
+                    Status = false,
+                    Message = "ID number already exists"
+                };
             }
 
             if (!Validator.IsValidPassword(password))
@@ -47,7 +45,7 @@ namespace Sport_App_Service.Auth.Register
                 return new AuthReturn
                 {
                     Status = false,
-                    Messsage = "Password must be at least 8 characters, contain an uppercase, lowercase, digit, and special character"
+                    Message = "Password must be at least 8 characters, contain an uppercase, lowercase, digit, and special character"
                 };
             }
 
@@ -56,7 +54,7 @@ namespace Sport_App_Service.Auth.Register
                 return new AuthReturn
                 {
                     Status = false,
-                    Messsage = "ID number must be 13 digits long and contain only numbers"
+                    Message = "ID number must be 13 digits long and contain only numbers"
                 };
             }
 
@@ -74,12 +72,12 @@ namespace Sport_App_Service.Auth.Register
                 Password = hashedPassword,
             };
 
-            _userRepository.AddUserAsync(newUser).Wait();
+            await _userRepository.AddUserAsync(newUser);
 
             return new AuthReturn
             {
                 Status = true,
-                Messsage = "User registered successfully"
+                Message = "User registered successfully"
             };
         }
     }

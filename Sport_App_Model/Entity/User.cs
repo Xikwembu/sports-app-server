@@ -32,6 +32,7 @@ namespace Sport_App_Model.Entity
 
         [Required]
         public string RoleType { get; set; } = null!;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public LoginOtp? LoginOtp { get; set; }
     }

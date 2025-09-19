@@ -1,4 +1,4 @@
-﻿namespace Sport_App_Model.Requests
+﻿namespace Sports_App_Model.Requests.Auth
 {
     public class RegisterUserRequest
     {

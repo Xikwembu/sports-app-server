@@ -4,6 +4,6 @@ namespace Sport_App_Service.Auth.Login
 {
     public interface ILoginService
     {
-        AuthReturn LoginReturn(string email, string password);
+        Task<AuthReturn> LoginUserAsync(string email, string password);
     }
 }

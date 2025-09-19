@@ -4,27 +4,27 @@ using Sport_App_Model.Entity;
 
 namespace Sports_App_Repository.UserRepository
 {
-    
+
     public class UserRepository : IUserRepository
     {
-        private readonly AppDbContext _context;
+        private readonly AppDbContext _dbContext;
 
-        public UserRepository(AppDbContext context)
+        public UserRepository(AppDbContext dbContext)
         {
-            _context = context;
+            _dbContext = dbContext;
         }
-                 
+
         public async Task<User> AddUserAsync(User user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            _dbContext.Users.Add(user);
+            await _dbContext.SaveChangesAsync();
 
             return user;
         }
 
         public async Task<User?> GetUserByEmailAsync(string email)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
 
             if (user != null)
             {
@@ -36,7 +36,19 @@ namespace Sports_App_Repository.UserRepository
 
         public async Task<User?> GetUserByIdAsync(int userId)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user != null)
+            {
+                return user;
+            }
+
+            return null;
+        }
+
+        public async Task<User?> GetUserByIdNumberAsync(string idNumber)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.IdNumber == idNumber);
 
             if (user != null)
             {

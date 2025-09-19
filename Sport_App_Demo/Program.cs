@@ -7,7 +7,9 @@ using Sport_App_Service.Auth.Login;
 using Sport_App_Service.Auth.Register;
 using Sport_App_Service.Encryption;
 using Sports_App_Model.Setup;
+using Sports_App_Repository.OtpRepository;
 using Sports_App_Repository.UserRepository;
+using Sports_App_Service.Auth.Otp;
 using Sports_App_Service.Token.Auth;
 using Sports_App_Service.Token.Otp;
 
@@ -37,6 +39,8 @@ builder.Services.AddScoped<IRegisterService, RegisterService>();
 builder.Services.AddScoped<IAuthTokenService, AuthTokenService>();
 builder.Services.AddScoped<IEncryptionService, EncryptionService>();
 builder.Services.AddScoped<IOtpTokenService, OtpTokenService>();
+builder.Services.AddScoped<IOtpService, OtpService>();
+builder.Services.AddScoped<IOtpRepository, OtpRepository>();
 
 var jwtSettings = new JwtSettings();
 builder.Configuration.GetSection("Jwt").Bind(jwtSettings);

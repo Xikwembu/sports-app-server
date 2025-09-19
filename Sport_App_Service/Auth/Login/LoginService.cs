@@ -1,33 +1,37 @@
 ﻿using Sport_App_Model.Returns;
 using Sport_App_Service.Encryption;
 using Sports_App_Repository.UserRepository;
-using Sports_App_Service.Token.Auth;
+using Sports_App_Service.Auth.Otp;
+using Sports_App_Service.Token.Otp;
 
 namespace Sport_App_Service.Auth.Login
 {
     public class LoginService : ILoginService
     {
-        public readonly IUserRepository _userRepository;
-        public readonly IAuthTokenService _tokenService;
+        private readonly IUserRepository _userRepository;
+        private readonly IOtpTokenService _otpTokenService;
         private readonly IEncryptionService _encryptionService;
+        private readonly IOtpService _otpService;
 
-        public LoginService(IUserRepository userRepository, IAuthTokenService tokenService, IEncryptionService encryptionService)
+        public LoginService(IUserRepository userRepository, IOtpTokenService otpTokenService,
+            IEncryptionService encryptionService, IOtpService otpService)
         {
             _userRepository = userRepository;
-            _tokenService = tokenService;
+            _otpTokenService = otpTokenService;
             _encryptionService = encryptionService;
+            _otpService = otpService;
         }
 
-        public AuthReturn LoginReturn(string email, string password)
+        public async Task<AuthReturn> LoginUserAsync(string email, string password)
         {
-            var existingUser = _userRepository.GetUserByEmailAsync(email).Result;
+            var existingUser = await _userRepository.GetUserByEmailAsync(email);
 
             if (existingUser == null)
             {
                 return new AuthReturn
                 {
                     Status = false,
-                    Messsage = "Invalid credentials"
+                    Message = "Invalid credentials"
                 };
             }
 
@@ -38,17 +42,18 @@ namespace Sport_App_Service.Auth.Login
                 return new AuthReturn
                 {
                     Status = false,
-                    Messsage = "Invalid credentials"
+                    Message = "Invalid credentials"
                 };
             }
 
-            var token = _tokenService.GenerateToken(existingUser.Id, existingUser.Email, existingUser.Role);
+            var otpToken = _otpTokenService.GenerateOtpToken(existingUser.Email);
+            var result = await _otpService.StoreOtp(existingUser.Id);
 
             return new AuthReturn
             {
                 Status = true,
-                Messsage = "Login successful",
-                Token = token
+                Message = result.Message,
+                OtpToken = otpToken,
             };
         }
     }
