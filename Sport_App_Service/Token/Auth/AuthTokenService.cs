@@ -23,9 +23,9 @@ namespace Sports_App_Service.Token.Auth
         {
             var claims = new[]
             {
-                new Claim("userId", userId.ToString()),
-                new Claim("email", email),
-                new Claim("role", role)
+                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+                new Claim(ClaimTypes.Email, email),
+                new Claim(ClaimTypes.Role, role)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key));

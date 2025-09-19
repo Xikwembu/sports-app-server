@@ -77,7 +77,6 @@ builder.Services.AddScoped<IOtpRepository, OtpRepository>();
 
 var jwtSettings = new JwtSettings();
 builder.Configuration.GetSection("Jwt").Bind(jwtSettings);
-
 builder.Services.AddSingleton(jwtSettings);
 
 var key = Encoding.UTF8.GetBytes(jwtSettings.Key);
@@ -97,7 +96,6 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidIssuer = jwtSettings.Issuer,
         ValidAudience = jwtSettings.Audience,
-        RoleClaimType = "role",
     };
 });
 

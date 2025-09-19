@@ -5,6 +5,6 @@ namespace Sports_App_Service.Auth.Otp
     public interface IOtpService
     {
         Task<AuthReturn> StoreOtp(int userId);
-        Task<AuthReturn> VerifyOtpAsync(int userId, string otp);
+        Task<AuthReturn> VerifyOtpAsync(string email, string otp);
     }
 }

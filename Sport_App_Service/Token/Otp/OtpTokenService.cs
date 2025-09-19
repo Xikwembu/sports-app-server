@@ -8,30 +8,26 @@ namespace Sports_App_Service.Token.Otp
 {
     public class OtpTokenService : IOtpTokenService
     {
-        private readonly string _key;
-        private readonly string _issuer;
-        private readonly string _audience;
+        private readonly JwtSettings _jwtSettings;
 
         public OtpTokenService(JwtSettings jwtSettings)
         {
-            _key = jwtSettings.Key;
-            _issuer = jwtSettings.Issuer;
-            _audience = jwtSettings.Audience;
+            _jwtSettings = jwtSettings;
         }
 
         public string GenerateOtpToken(string email)
         {
             var claims = new[]
             {
-                new Claim("email", email),
+                new Claim(ClaimTypes.Email, email),
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: _issuer,
-                audience: _audience,
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
                 claims: claims,
                 expires: DateTime.Now.AddDays(30),
                 signingCredentials: creds
@@ -43,7 +39,7 @@ namespace Sports_App_Service.Token.Otp
         public ClaimsPrincipal? ValidateToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(_key);
+            var key = Encoding.UTF8.GetBytes(_jwtSettings.Key);
 
             var validationParameters = new TokenValidationParameters
             {

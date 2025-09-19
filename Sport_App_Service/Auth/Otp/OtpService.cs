@@ -65,9 +65,9 @@ namespace Sports_App_Service.Auth.Otp
             };
         }
 
-        public async Task<AuthReturn> VerifyOtpAsync(int userId, string otp)
+        public async Task<AuthReturn> VerifyOtpAsync(string email, string otp)
         {
-            var userOtp = await _otpRepository.GetOtpByUserIdAsync(userId);
+            var userOtp = await _otpRepository.GetOtpByUserEmailAsync(email);
 
             if (userOtp == null)
             {
@@ -107,7 +107,7 @@ namespace Sports_App_Service.Auth.Otp
                 };
             }
 
-            var user = await _userRepository.GetUserByIdAsync(userId);
+            var user = await _userRepository.GetUserByEmailAsync(email);
 
             if (user == null)
             {

@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Sport_App_Service.Auth.Login;
@@ -54,18 +56,18 @@ namespace Sport_App_Demo.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpRequest request)
         {
-            var userIdClaim = User.FindFirst("userId")?.Value;
-            int userId = 0;
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
 
-            if (int.TryParse(userIdClaim, out var id))
+            if (string.IsNullOrEmpty(email))
             {
-                userId = id;
+                return Unauthorized(new { status = false, message = "Session expired, please log in again" });
             }
 
-            var result = await _otpService.VerifyOtpAsync(userId, request.Otp);
+            var result = await _otpService.VerifyOtpAsync(email, request.Otp);
 
             if (result.Status)
             {
