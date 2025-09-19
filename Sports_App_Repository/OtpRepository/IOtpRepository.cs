@@ -7,5 +7,6 @@ namespace Sports_App_Repository.OtpRepository
         Task<LoginOtp> StoreOtpAsync(LoginOtp otp);
         Task<LoginOtp?> GetOtpByUserIdAsync(int userId);
         Task<LoginOtp?> GetOtpByUserEmailAsync(string email);
+        Task DeleteOtpAsync(LoginOtp otp);
     }
 }

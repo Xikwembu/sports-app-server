@@ -26,6 +26,13 @@ namespace Sports_App_Service.Auth.Otp
 
         public async Task<AuthReturn> StoreOtp(int userId)
         {
+            var existingOtp = await _otpRepository.GetOtpByUserIdAsync(userId);
+
+            if (existingOtp != null)
+            {
+                await _otpRepository.DeleteOtpAsync(existingOtp);
+            }
+
             string generatedOtp = OtpGenerator.GenerateOtp(6);
 
             // implement email logic

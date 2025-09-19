@@ -48,5 +48,11 @@ namespace Sports_App_Repository.OtpRepository
 
             return null;
         }
+
+        public async Task DeleteOtpAsync(LoginOtp otp)
+        {
+            _dbContext.LoginOtps.Remove(otp);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }
