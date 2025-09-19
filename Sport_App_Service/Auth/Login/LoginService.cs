@@ -42,7 +42,7 @@ namespace Sport_App_Service.Auth.Login
                 };
             }
 
-            var token = _tokenService.GenerateToken(existingUser.Email, existingUser.Role);
+            var token = _tokenService.GenerateToken(existingUser.Id, existingUser.Email, existingUser.Role);
 
             return new AuthReturn
             {

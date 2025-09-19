@@ -41,6 +41,8 @@ builder.Services.AddScoped<IOtpTokenService, OtpTokenService>();
 var jwtSettings = new JwtSettings();
 builder.Configuration.GetSection("Jwt").Bind(jwtSettings);
 
+builder.Services.AddSingleton(jwtSettings);
+
 var key = Encoding.UTF8.GetBytes(jwtSettings.Key);
 
 builder.Services.AddAuthentication(options =>

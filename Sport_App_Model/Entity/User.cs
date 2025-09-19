@@ -1,29 +1,38 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Sports_App_Model.Entity;
 
 namespace Sport_App_Model.Entity
 {
     public class User
     {
         [Key]
-        [Required]
         public int Id { get; set; }
-        [Required]
-        public string Name { get; set; }
-        [Required]
-        public string Surname { get; set; }
-        [Required]
-        public string Password { get; set; }
-        [Required]
-        public string Email { get; set; }
-        [Required]
-        public string IdNumber { get; set; }
-        [Required]
-        public string Race { get; set; }
-        [Required]
-        public string Role { get; set; }
 
         [Required]
-        public string Roletype { get; set; }
+        public string Name { get; set; } = null!;
+
+        [Required]
+        public string Surname { get; set; } = null!;
+
+        [Required]
+        public string Password { get; set; } = null!;
+
+        [EmailAddress]
+        [Required]
+        public string Email { get; set; } = null!;
+
+        [Required]
+        public string IdNumber { get; set; } = null!;
+
+        [Required]
+        public string Race { get; set; } = null!;
+
+        [Required]
+        public string Role { get; set; } = null!;
+
+        [Required]
+        public string RoleType { get; set; } = null!;
+
+        public LoginOtp? LoginOtp { get; set; }
     }
 }

@@ -19,13 +19,12 @@ namespace Sports_App_Service.Token.Auth
             _audience = jwtSettings.Audience;
         }
 
-        public string GenerateToken(int userId, string email, string username, string role)
+        public string GenerateToken(int userId, string email, string role)
         {
             var claims = new[]
             {
                 new Claim("userId", userId.ToString()),
                 new Claim("email", email),
-                new Claim("username", username),
                 new Claim("role", role)
             };
 

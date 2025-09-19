@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sport_App_Model.Entity;
-
+using Sports_App_Model.Entity;
 
 namespace Sport_App_Model
 {
@@ -10,13 +10,19 @@ namespace Sport_App_Model
             : base(options)
         {
         }
+
         public DbSet<User> Users { get; set; }
+        public DbSet<LoginOtp> LoginOtps { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Add any custom configuration if needed
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.LoginOtp)
+                .WithOne(o => o.User)
+                .HasForeignKey<LoginOtp>(o => o.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

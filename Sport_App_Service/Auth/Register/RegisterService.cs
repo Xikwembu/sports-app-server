@@ -17,7 +17,7 @@ namespace Sport_App_Service.Auth.Register
             _encryptionService = encryptionService;
         }
 
-        public AuthReturn RegisterUser(string name, string surname, string email, string password, string role, string race, string idNumber, string roletype)
+        public AuthReturn RegisterUser(string name, string surname, string email, string password, string role, string race, string idNumber, string roleType)
         {
             var existingUser = _userRepository.GetUserByEmailAsync(email).Result;
 
@@ -30,9 +30,9 @@ namespace Sport_App_Service.Auth.Register
                 };
             }
 
-            if (existingUser != null) 
+            if (existingUser != null)
             {
-                if (existingUser.IdNumber == idNumber) 
+                if (existingUser.IdNumber == idNumber)
                 {
                     return new AuthReturn
                     {
@@ -66,7 +66,7 @@ namespace Sport_App_Service.Auth.Register
             {
                 Surname = surname,
                 Role = role,
-                Roletype = roletype,
+                RoleType = roleType,
                 Race = race,
                 Name = name,
                 IdNumber = idNumber,
