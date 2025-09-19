@@ -1,6 +1,7 @@
 ﻿using Sport_App_Model.Entity;
 using Sport_App_Model.Returns;
 using Sport_App_Service.Encryption;
+using Sport_App_Service.Validation;
 using Sports_App_Repository.UserRepository;
 
 namespace Sport_App_Service.Auth.Register
@@ -26,6 +27,36 @@ namespace Sport_App_Service.Auth.Register
                 {
                     Status = false,
                     Messsage = "Email already in use"
+                };
+            }
+
+            if (existingUser != null) 
+            {
+                if (existingUser.IdNumber == idNumber) 
+                {
+                    return new AuthReturn
+                    {
+                        Status = false,
+                        Messsage = "ID number already exists"
+                    };
+                }
+            }
+
+            if (!Validator.IsValidPassword(password))
+            {
+                return new AuthReturn
+                {
+                    Status = false,
+                    Messsage = "Password must be at least 8 characters, contain an uppercase, lowercase, digit, and special character"
+                };
+            }
+
+            if (!Validator.IsValidIdNumber(idNumber))
+            {
+                return new AuthReturn
+                {
+                    Status = false,
+                    Messsage = "ID number must be 13 digits long and contain only numbers"
                 };
             }
 
