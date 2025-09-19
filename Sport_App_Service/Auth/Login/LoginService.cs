@@ -1,17 +1,17 @@
 ﻿using Sport_App_Model.Returns;
 using Sport_App_Service.Encryption;
-using Sport_App_Service.Token;
 using Sports_App_Repository.UserRepository;
+using Sports_App_Service.Token.Auth;
 
 namespace Sport_App_Service.Auth.Login
 {
     public class LoginService : ILoginService
     {
         public readonly IUserRepository _userRepository;
-        public readonly ITokenService _tokenService;
+        public readonly IAuthTokenService _tokenService;
         private readonly IEncryptionService _encryptionService;
 
-        public LoginService(IUserRepository userRepository, ITokenService tokenService, IEncryptionService encryptionService)
+        public LoginService(IUserRepository userRepository, IAuthTokenService tokenService, IEncryptionService encryptionService)
         {
             _userRepository = userRepository;
             _tokenService = tokenService;

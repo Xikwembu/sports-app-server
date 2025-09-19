@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sport_App_Demo", "Sport_App_Demo\Sport_App_Demo.csproj", "{C44A237E-14EF-485A-8BE9-B7A77418F570}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sports_App_API", "Sport_App_Demo\Sports_App_API.csproj", "{C44A237E-14EF-485A-8BE9-B7A77418F570}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sport_App_Model", "Sport_App_Model\Sport_App_Model.csproj", "{E10F0E2D-0559-4245-80BD-C50BDAF95247}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sports_App_Model", "Sport_App_Model\Sports_App_Model.csproj", "{E10F0E2D-0559-4245-80BD-C50BDAF95247}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sport_App_Service", "Sport_App_Service\Sport_App_Service.csproj", "{6CA2B1C9-C254-46BC-9090-60EA9866F10A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sports_App_Service", "Sport_App_Service\Sports_App_Service.csproj", "{6CA2B1C9-C254-46BC-9090-60EA9866F10A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sports_App_Repository", "Sports_App_Repository\Sports_App_Repository.csproj", "{1BAA24F6-F4F4-4C75-B957-1F7DD678EE60}"
 EndProject

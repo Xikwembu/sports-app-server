@@ -1,35 +1,44 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using Sports_App_Model.Setup;
 
-namespace Sport_App_Service.Token
+namespace Sports_App_Service.Token.Auth
 {
-    public class TokenService : ITokenService
+    public class AuthTokenService : IAuthTokenService
     {
         private readonly string _key;
+        private readonly string _issuer;
+        private readonly string _audience;
 
-        public TokenService() 
+        public AuthTokenService(JwtSettings jwtSettings)
         {
-            _key = "jwtkeyforprojectfortestingpurposes";
+            _key = jwtSettings.Key;
+            _issuer = jwtSettings.Issuer;
+            _audience = jwtSettings.Audience;
         }
 
-        public string GenerateToken(string email, string role)
+        public string GenerateToken(int userId, string email, string username, string role)
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.Email, email),
-                new Claim(ClaimTypes.Role, role)
+                new Claim("userId", userId.ToString()),
+                new Claim("email", email),
+                new Claim("username", username),
+                new Claim("role", role)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
+                issuer: _issuer,
+                audience: _audience,
                 claims: claims,
-                expires: DateTime.Now.AddHours(3),
+                expires: DateTime.Now.AddDays(30),
                 signingCredentials: creds
-                );
+            );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
@@ -43,8 +52,8 @@ namespace Sport_App_Service.Token
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false,
+                ValidateIssuer = true,
+                ValidateAudience = true,
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
