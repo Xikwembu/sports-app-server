@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Sport_App_Service.Auth.Login;
 using Sport_App_Service.Auth.Register;
+using Sports_App_Model.Dto;
 using Sports_App_Model.Requests.Auth;
 using Sports_App_Service.Auth.Otp;
 
@@ -27,9 +28,9 @@ namespace Sport_App_Demo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserRequest request)
+        public async Task<IActionResult> RegisterUser([FromBody] UserDto request)
         {
-            var result = await _registerService.RegisterUserAsync(request.Name, request.Surname, request.Email, request.Password, request.Role, request.Race, request.IdNumber, request.RoleType);
+            var result = await _registerService.RegisterUserAsync(request);
 
             if (result.Status)
             {
@@ -64,7 +65,11 @@ namespace Sport_App_Demo.Controllers
 
             if (string.IsNullOrEmpty(email))
             {
-                return Unauthorized(new { status = false, message = "Session expired, please log in again" });
+                return Unauthorized(new
+                {
+                    status = false,
+                    message = "Session expired, please log in again"
+                });
             }
 
             var result = await _otpService.VerifyOtpAsync(email, request.Otp);

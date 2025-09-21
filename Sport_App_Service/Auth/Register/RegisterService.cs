@@ -2,6 +2,7 @@
 using Sport_App_Model.Returns;
 using Sport_App_Service.Encryption;
 using Sport_App_Service.Validation;
+using Sports_App_Model.Dto;
 using Sports_App_Repository.UserRepository;
 
 namespace Sport_App_Service.Auth.Register
@@ -17,9 +18,9 @@ namespace Sport_App_Service.Auth.Register
             _encryptionService = encryptionService;
         }
 
-        public async Task<AuthReturn> RegisterUserAsync(string name, string surname, string email, string password, string role, string race, string idNumber, string roleType)
+        public async Task<AuthReturn> RegisterUserAsync(UserDto userDto)
         {
-            var existingUser = await _userRepository.GetUserByEmailAsync(email);
+            var existingUser = await _userRepository.GetUserByEmailAsync(userDto.Email);
 
             if (existingUser != null)
             {
@@ -30,7 +31,7 @@ namespace Sport_App_Service.Auth.Register
                 };
             }
 
-            var userByIdNumber = await _userRepository.GetUserByIdNumberAsync(idNumber);
+            var userByIdNumber = await _userRepository.GetUserByIdNumberAsync(userDto.IdNumber);
             if (userByIdNumber != null)
             {
                 return new AuthReturn
@@ -40,7 +41,7 @@ namespace Sport_App_Service.Auth.Register
                 };
             }
 
-            if (!Validator.IsValidPassword(password))
+            if (!Validator.IsValidPassword(userDto.Password))
             {
                 return new AuthReturn
                 {
@@ -49,7 +50,7 @@ namespace Sport_App_Service.Auth.Register
                 };
             }
 
-            if (!Validator.IsValidIdNumber(idNumber))
+            if (!Validator.IsValidIdNumber(userDto.IdNumber))
             {
                 return new AuthReturn
                 {
@@ -58,17 +59,17 @@ namespace Sport_App_Service.Auth.Register
                 };
             }
 
-            var hashedPassword = _encryptionService.HashPassword(password);
+            var hashedPassword = _encryptionService.HashPassword(userDto.Password);
 
             var newUser = new User
             {
-                Surname = surname,
-                Role = role,
-                RoleType = roleType,
-                Race = race,
-                Name = name,
-                IdNumber = idNumber,
-                Email = email,
+                Surname = userDto.Surname,
+                Role = userDto.Role,
+                RoleType = userDto.RoleType,
+                Race = userDto.Race,
+                Name = userDto.Name,
+                IdNumber = userDto.IdNumber,
+                Email = userDto.Email,
                 Password = hashedPassword,
             };
 

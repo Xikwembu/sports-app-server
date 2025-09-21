@@ -1,6 +1,6 @@
-﻿namespace Sports_App_Model.Requests.Auth
+﻿namespace Sports_App_Model.Dto
 {
-    public class RegisterUserRequest
+    public class UserDto
     {
         public string Surname { get; set; }
         public string Name { get; set; }
