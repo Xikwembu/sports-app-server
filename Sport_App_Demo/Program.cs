@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -12,6 +13,7 @@ using Sports_App_Model.Setup;
 using Sports_App_Repository.OtpRepository;
 using Sports_App_Repository.UserRepository;
 using Sports_App_Service.Auth.Otp;
+using Sports_App_Service.Email;
 using Sports_App_Service.Token.Auth;
 using Sports_App_Service.Token.Otp;
 
@@ -65,6 +67,10 @@ builder.Services.AddCors(options =>
                           .AllowAnyHeader();
                });
 });
+builder.Services.AddHangfire(config =>
+    config.UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddHangfireServer();
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ILoginService, LoginService>();
@@ -74,6 +80,7 @@ builder.Services.AddScoped<IEncryptionService, EncryptionService>();
 builder.Services.AddScoped<IOtpTokenService, OtpTokenService>();
 builder.Services.AddScoped<IOtpService, OtpService>();
 builder.Services.AddScoped<IOtpRepository, OtpRepository>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 var jwtSettings = new JwtSettings();
 builder.Configuration.GetSection("Jwt").Bind(jwtSettings);
